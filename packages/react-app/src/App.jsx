@@ -268,7 +268,7 @@ function App(props) {
         <Button type={"primary"} onClick={()=>{
           faucetTx({
             to: address,
-            value: parseEther("0.01"),
+            value: parseEther("100"),
           });
           setFaucetClicked(true)
         }}>
