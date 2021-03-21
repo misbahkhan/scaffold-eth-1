@@ -488,7 +488,7 @@ function App(props) {
                           address={item[0]}
                           ensProvider={mainnetProvider}
                           fontSize={16}
-                      /> =>
+                      /> 
                       <Address
                           address={item[1]}
                           ensProvider={mainnetProvider}
