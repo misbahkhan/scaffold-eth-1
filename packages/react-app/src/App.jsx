@@ -296,15 +296,15 @@ function App(props) {
       for(let a in assets){
         try{
           const forSale = await readContracts.YourCollectible.forSale(utils.id(a))
-          const highestBidByTokenId = (await readContracts.YourCollectible.highestBid()).toNumber()
-          const highestBidder = await readContracts.YourCollectible.highestBidder()
+          const highestBid = (await readContracts.YourCollectible.uriToBidValue(utils.id(a))).toNumber()
+          const highestBidder = (await readContracts.YourCollectible.uriToHighestBidder(utils.id(a)))
           
           let owner
           if(!forSale){
             const tokenId = await readContracts.YourCollectible.uriToTokenId(utils.id(a))
             owner = await readContracts.YourCollectible.ownerOf(tokenId)
           }
-          assetUpdate.push({id:a,...assets[a],forSale:forSale,owner:owner,highestBidByTokenId:highestBidByTokenId,highestBidder:highestBidder})
+          assetUpdate.push({id:a,...assets[a],forSale:forSale,owner:owner,highestBid:highestBid,highestBidder:highestBidder})
         }catch(e){console.log(e)}
       }
       setLoadedAssets(assetUpdate)
@@ -361,8 +361,8 @@ function App(props) {
         <div style={{opacity:0.77}}>
           {loadedAssets[a].description}
         </div>
-        <div> 
-          Highest Bid: {(loadedAssets[a].highestBidByTokenId)}
+        <div>
+          Highest Bid: {loadedAssets[a].highestBid}
         </div>
         <div>
           Highest Bidder: <Address

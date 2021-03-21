@@ -21,6 +21,8 @@ contract YourCollectible is ERC721 {
     }
   }
 
+  mapping (bytes32 => uint256) public uriToBidValue;
+  mapping (bytes32 => address) public uriToHighestBidder;
   uint256 public highestBid;
   address public highestBidder;
 
@@ -59,5 +61,8 @@ contract YourCollectible is ERC721 {
       uint256 id = uriToTokenId[uriHash];
       highestBid = highestBid + 1;
       highestBidder = msg.sender;
+      uriToBidValue[uriHash] = highestBid;
+      uriToHighestBidder[uriHash] = highestBidder;
+
   }
 }
