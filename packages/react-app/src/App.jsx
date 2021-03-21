@@ -329,7 +329,7 @@ function App(props) {
           </Button>
           <Button onClick={()=>{
             console.log("gasPrice,",gasPrice)
-            tx( writeContracts.YourCollectible.bidOnItem(loadedAssets[a].id,{gasPrice:gasPrice}))
+            tx( writeContracts.YourCollectible.bidOnItem(loadedAssets[a].id,{gasPrice:gasPrice, value:parseEther("1")}))
           }}>
             Bid
           </Button>
