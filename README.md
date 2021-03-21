@@ -1,5 +1,18 @@
 # 🏗 scaffold-eth - 🎫 Buyer Mints NFT
 
+> NFT Hack
+
+Buyers can place bids on NFTs they want to buy, and if they are the highest bidder, then they can pay to mint the NFT. All NFTs minted are 1/1. 
+
+The gallery of NFTs will display the current highest bid, and the current highest bidder for that piece. 
+
+The seller can choose the time frame they want to take bids, starting from the first bid. Every time a prospective buyer submits a bid, they send that amount into the contract. If they are not the highest bidder, they can withdraw their existing bid amount from the contract. 
+
+Making bids for NFTs can be in ETH or traditional fiat bridges using Circle APIs. Computing the highest bid will be done at the time of bid placement, if comparing between Eth and USDC payments. 
+
+Additional Resources:
+https://sample-sandbox.circle.com/flow/charge
+
 > (Counterfactual NFT minting example...)
 
 Deployer pays around (0.283719 ETH ~$500 at todays gas and price) for the initial contract but then NFTs are only minted once a buyer wants them. (The buyer of the NFT pays the gas to mint. ~$55)

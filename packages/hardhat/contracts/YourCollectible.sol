@@ -61,7 +61,7 @@ contract YourCollectible is ERC721 {
       uint256 id = uriToTokenId[uriHash];
       highestBid = highestBid + 1;
       highestBidder = msg.sender;
-      uriToBidValue[uriHash] = highestBid;
+      uriToBidValue[uriHash] = uriToBidValue[uriHash] + 1;
       uriToHighestBidder[uriHash] = highestBidder;
 
   }
