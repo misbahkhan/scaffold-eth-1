@@ -4,7 +4,7 @@ pragma solidity >=0.6.0 <0.7.0;
 //import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-//import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 //learn more: https://docs.openzeppelin.com/contracts/3.x/erc721
 
 // GET LISTED ON OPENSEA: https://testnets.opensea.io/get-listed/step-two
@@ -20,6 +20,10 @@ contract YourCollectible is ERC721 {
       forSale[assetsForSale[i]] = true;
     }
   }
+
+  uint256 public highestBid;
+  address public highestBidder;
+
 
   //this marks an item in IPFS as "forsale"
   mapping (bytes32 => bool) public forSale;
@@ -45,5 +49,15 @@ contract YourCollectible is ERC721 {
       uriToTokenId[uriHash] = id;
 
       return id;
+  }
+
+  function bidOnItem(string memory tokenURI)
+      public
+      payable 
+  {
+      bytes32 uriHash = keccak256(abi.encodePacked(tokenURI));
+      uint256 id = uriToTokenId[uriHash];
+      highestBid = highestBid + 1;
+      highestBidder = msg.sender;
   }
 }

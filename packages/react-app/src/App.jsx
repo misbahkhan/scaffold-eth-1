@@ -296,12 +296,15 @@ function App(props) {
       for(let a in assets){
         try{
           const forSale = await readContracts.YourCollectible.forSale(utils.id(a))
+          const highestBidByTokenId = (await readContracts.YourCollectible.highestBid()).toNumber()
+          const highestBidder = await readContracts.YourCollectible.highestBidder()
+          
           let owner
           if(!forSale){
             const tokenId = await readContracts.YourCollectible.uriToTokenId(utils.id(a))
             owner = await readContracts.YourCollectible.ownerOf(tokenId)
           }
-          assetUpdate.push({id:a,...assets[a],forSale:forSale,owner:owner})
+          assetUpdate.push({id:a,...assets[a],forSale:forSale,owner:owner,highestBidByTokenId:highestBidByTokenId,highestBidder:highestBidder})
         }catch(e){console.log(e)}
       }
       setLoadedAssets(assetUpdate)
@@ -317,11 +320,18 @@ function App(props) {
     if(loadedAssets[a].forSale){
       cardActions.push(
         <div>
+          
           <Button onClick={()=>{
             console.log("gasPrice,",gasPrice)
             tx( writeContracts.YourCollectible.mintItem(loadedAssets[a].id,{gasPrice:gasPrice}) )
           }}>
             Mint
+          </Button>
+          <Button onClick={()=>{
+            console.log("gasPrice,",gasPrice)
+            tx( writeContracts.YourCollectible.bidOnItem(loadedAssets[a].id,{gasPrice:gasPrice}))
+          }}>
+            Bid
           </Button>
         </div>
       )
@@ -350,6 +360,17 @@ function App(props) {
         <img style={{maxWidth:130}} src={loadedAssets[a].image}/>
         <div style={{opacity:0.77}}>
           {loadedAssets[a].description}
+        </div>
+        <div> 
+          Highest Bid: {(loadedAssets[a].highestBidByTokenId)}
+        </div>
+        <div>
+          Highest Bidder: <Address
+            address={loadedAssets[a].highestBidder}
+            ensProvider={mainnetProvider}
+            blockExplorer={blockExplorer}
+            minimized={true}
+          />
         </div>
       </Card>
     )
